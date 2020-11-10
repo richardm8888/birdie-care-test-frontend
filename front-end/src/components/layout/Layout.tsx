@@ -5,9 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-
-import 'react-dates/lib/css/_datepicker.css';
-import { DayPickerRangeController } from 'react-dates';
+import DatePicker from '@App/components/DatePicker';
 
 const drawerWidth = 320;
 
@@ -56,14 +54,7 @@ export default function Layout() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-            <DayPickerRangeController
-                startDate={null} // momentPropTypes.momentObj or null,
-                endDate={null} // momentPropTypes.momentObj or null,
-                onDatesChange={({ startDate, endDate }) => {}} // PropTypes.func.isRequired,
-                focusedInput={null} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                onFocusChange={focusedInput => {}} // PropTypes.func.isRequired,
-                initialVisibleMonth={null} // PropTypes.func or null,
-            />
+            <DatePicker />
         </div>
       </Drawer>
       <main className={classes.content}>
@@ -72,3 +63,4 @@ export default function Layout() {
     </div>
   );
 }
+
