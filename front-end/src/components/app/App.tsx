@@ -8,6 +8,9 @@ import Title from '@App/components/Title';
 import Logo from '@App/components/Logo';
 import SubTitle from '@App/components/SubTitle';
 
+import 'react-dates/initialize';
+import Layout from '@App/components/layout/Layout';
+
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
 interface AppProps {
@@ -43,6 +46,10 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
+    return (
+        <Layout />
+    );
+
     return (
       <>
         <GlobalStyle />
