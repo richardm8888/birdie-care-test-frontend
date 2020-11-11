@@ -18,6 +18,10 @@ export default function visitsReducer(state: Visits = visitsState, action: GetVi
                 ...state,
                 visits: [],
             };
+        case GET_ACTIONS.GET_VISIT_CALENDAR_SUCCESS:
+            return {
+                ...state,
+            };
         default:
             return state;
     }
