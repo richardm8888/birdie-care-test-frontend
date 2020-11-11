@@ -3,7 +3,8 @@ import {
 } from './types';
 
 export const visitsState: Visits = {
-    visits: []
+    visits: [],
+    visit_calendar: []
 };
 
 export default function visitsReducer(state: Visits = visitsState, action: GetVisitsSuccessAction) {
@@ -21,6 +22,7 @@ export default function visitsReducer(state: Visits = visitsState, action: GetVi
         case GET_ACTIONS.GET_VISIT_CALENDAR_SUCCESS:
             return {
                 ...state,
+                visit_calendar: action.payload.data.visit_calendar,
             };
         default:
             return state;

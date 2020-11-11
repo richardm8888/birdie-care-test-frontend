@@ -43,8 +43,14 @@ export type Visit = {
     events: Event[];
 };
 
+export type VisitDate = {
+    date: Date;
+    n_visits: number;
+};
+
 export type Visits = {
     visits: Visit[];
+    visit_calendar: VisitDate[];
 };
 
 type Request = {
