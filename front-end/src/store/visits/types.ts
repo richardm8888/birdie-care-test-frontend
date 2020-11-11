@@ -43,14 +43,24 @@ export type Visit = {
     events: Event[];
 };
 
+export type Visits = {
+     visits: Visit[];
+}
+
+export type VisitCalendar = {
+    visit_calendar: VisitDate[];
+}
+
 export type VisitDate = {
     date: Date;
     n_visits: number;
 };
 
-export type Visits = {
+export type VisitState = {
     visits: Visit[];
     visit_calendar: VisitDate[];
+    current_visit: Visit|null;
+    current_date: moment.Moment|null;
 };
 
 type Request = {
@@ -61,6 +71,7 @@ type Request = {
 };
 
 export enum GET_ACTIONS {
+    SET_DATE = 'SET_DATE',
     GET_VISITS = 'GET_VISITS',
     GET_VISITS_SUCCESS = 'GET_VISITS_SUCCESS',
     GET_VISITS_FAIL = 'GET_VISITS_FAIL',
@@ -80,3 +91,12 @@ export type GetVisitsSuccessAction = {
         data: Visits;
     };
 };
+
+export type GetVisitCalendarSuccessAction = {
+    type: GET_ACTIONS;
+    payload: {
+        data: VisitCalendar;
+    };
+};
+
+export type ActionTypes = GetVisitsSuccessAction | GetVisitCalendarSuccessAction | GetVisitsAction;

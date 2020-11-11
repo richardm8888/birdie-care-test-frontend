@@ -1,13 +1,15 @@
 import {
-    GET_ACTIONS, Visits, GetVisitsSuccessAction
+    GET_ACTIONS, VisitState, ActionTypes
 } from './types';
 
-export const visitsState: Visits = {
+export const visitsState: VisitState = {
     visits: [],
-    visit_calendar: []
+    visit_calendar: [],
+    current_visit: null,
+    current_date: null,
 };
 
-export default function visitsReducer(state: Visits = visitsState, action: GetVisitsSuccessAction) {
+export default function visitsReducer(state: VisitState = visitsState, action: ActionTypes): VisitState {
     switch (action.type) {
         case GET_ACTIONS.GET_VISITS_SUCCESS:
             return {
@@ -23,6 +25,11 @@ export default function visitsReducer(state: Visits = visitsState, action: GetVi
             return {
                 ...state,
                 visit_calendar: action.payload.data.visit_calendar,
+            };
+        case GET_ACTIONS.SET_DATE:
+            return {
+                ...state,
+                current_date: action.payload.current_date,
             };
         default:
             return state;

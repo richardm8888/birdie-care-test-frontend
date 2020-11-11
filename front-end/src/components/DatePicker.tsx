@@ -12,18 +12,17 @@ import { DayPickerSingleDateController } from 'react-dates';
 type DatePickerProps = {
     getVisits: typeof getVisits;
     getVisitCalendar: typeof getVisitCalendar;
+    current_date: moment.Moment;
 };
 
 type DatePickerState = {
     current_month: moment.Moment;
-    date: moment.Moment;
 };
 
 class DatePicker extends React.Component<DatePickerProps> {
 
     state: DatePickerState = {
         current_month: moment('20190401', 'YYYYMMDD'),
-        date: moment('20190401', 'YYYYMMDD'),
     };
 
     componentDidMount() {
@@ -31,7 +30,7 @@ class DatePicker extends React.Component<DatePickerProps> {
     }
 
     componentDidUpdate(prevProps: DatePickerProps, prevState: DatePickerState) {
-        if (this.state.date !== prevState.date) {
+        if (this.props.current_date !== prevProps.current_date) {
             this.reloadVisits();
         }
 
@@ -43,15 +42,15 @@ class DatePicker extends React.Component<DatePickerProps> {
     reloadCalendar = () => {
         if (this.state.current_month) {
             this.props.getVisitCalendar(
-                this.state.date.startOf('month').format('YYYY-MM-DD'), 
-                this.state.date.endOf('month').format('YYYY-MM-DD')
+                this.props.current_date.startOf('month').format('YYYY-MM-DD'), 
+                this.props.current_date.endOf('month').format('YYYY-MM-DD')
             );
         }
     }
 
     reloadVisits = () => {
-        if (this.state.date) {
-            this.props.getVisits(this.state.date.format('YYYY-MM-DD'), this.state.date.format('YYYY-MM-DD'));
+        if (this.props.current_date) {
+            this.props.getVisits(this.props.current_date.format('YYYY-MM-DD'), this.props.current_date.format('YYYY-MM-DD'));
         }
     }
 
@@ -67,7 +66,7 @@ class DatePicker extends React.Component<DatePickerProps> {
                 onPrevMonthClick={this.setCurrentMonth}
                 onNextMonthClick={this.setCurrentMonth}
                 focused={true}
-                date={this.state.date}
+                date={this.props.current_date}
                 onDateChange={(date) => {
                     this.setState({
                         date: date,
@@ -81,11 +80,9 @@ class DatePicker extends React.Component<DatePickerProps> {
     }
 }
 
-const mapStateToProps = (state: StateType) => {
-    return {
-        visits: state.visits.visits
-    };
-};
+const mapStateToProps = ( state: StateType ) => ({
+    current_date: state.visits.current_date
+});
 
 const mapDispatchToProps = { getVisits, getVisitCalendar };
 

@@ -1,6 +1,16 @@
-import { GET_ACTIONS, GetVisitsAction } from './types';
+import { GET_ACTIONS, ActionTypes } from './types';
 
-export function getVisits(dateFrom: string, dateTo: string): GetVisitsAction {
+export function setDate(date: moment.Moment) {
+    return {
+        type: GET_ACTIONS.SET_DATE,
+        payload: {
+            date
+        }
+    };
+}
+
+
+export function getVisits(dateFrom: string, dateTo: string): ActionTypes {
     return {
         type: GET_ACTIONS.GET_VISITS,
         payload: {
@@ -12,7 +22,7 @@ export function getVisits(dateFrom: string, dateTo: string): GetVisitsAction {
     };
 }
 
-export function getVisitCalendar(dateFrom: string, dateTo: string): GetVisitsAction {
+export function getVisitCalendar(dateFrom: string, dateTo: string): ActionTypes {
     return {
         type: GET_ACTIONS.GET_VISIT_CALENDAR,
         payload: {
