@@ -1,35 +1,24 @@
 import * as React from 'react';
 import { getVisits } from '@App/store/visits/actions';
+import { StateType } from '@App/store/reducers';
 import { connect } from 'react-redux';
 
 import 'react-dates/initialize';
 
 import 'react-dates/lib/css/_datepicker.css';
 import { DayPickerRangeController } from 'react-dates';
-import styled, { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    height: 100vh;
-    background-color: #F9F9F9;
-    > div {
-      height: 100%;
-    }
-  }
-`;
+interface DatePickerProps {
+    getVisits: typeof getVisits;
+}
 
-
-class DatePicker extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+class DatePicker extends React.Component<DatePickerProps> {
 
     componentDidMount() {
-        this.props.getVisits();
+        this.props.getVisits(new Date('2019-04-25'), new Date('2019-04-25'));
     }
 
     render() {
-        console.log(this.props.visits);
         return (
             <DayPickerRangeController
                 startDate={null} // momentPropTypes.momentObj or null,
@@ -43,12 +32,12 @@ class DatePicker extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    visits: state.visits,
-});
-
-const mapDispatchToProps = {
-    getVisits
+const mapStateToProps = (state: StateType) => {
+    return {
+        visits: state.visits.visits
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+const mapDispatchToProps = { getVisits };
+
+export default connect(mapStateToProps, mapDispatchToProps)(DatePicker);

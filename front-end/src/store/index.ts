@@ -13,22 +13,20 @@ declare global {
   }
 }
 
+const axiosClient = axios.create({
+    baseURL: 'http://localhost:8000',
+    responseType: 'json'
+});
+
 const sagaMiddleware = createSagaMiddleware();
+const axiosMiddlewareInstance = axiosMiddleware(axiosClient);
 export const history = createBrowserHistory();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const client = axios.create({
-    baseURL:'http://localhost:8000',
-    responseType: 'json'
-});
-
 const store = createStore(
   rootReducer,
-  applyMiddleware(
-    axiosMiddleware(client),
-  ),
-  composeEnhancers(applyMiddleware(sagaMiddleware)),
+  composeEnhancers(applyMiddleware(sagaMiddleware, axiosMiddlewareInstance)),
 );
 
 sagaMiddleware.run(initSaga);

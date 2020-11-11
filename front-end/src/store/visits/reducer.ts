@@ -1,17 +1,17 @@
 import {
-    GET_ACTIONS, VisitState, GetVisitsAction
+    GET_ACTIONS, Visits, GetVisitsSuccessAction
 } from './types';
 
-export const visitsState: VisitState = {
+export const visitsState: Visits = {
     visits: []
 };
 
-export default function visitsReducer(state = visitsState, action: GetVisitsAction) {
+export default function visitsReducer(state: Visits = visitsState, action: GetVisitsSuccessAction) {
     switch (action.type) {
         case GET_ACTIONS.GET_VISITS_SUCCESS:
             return {
                 ...state,
-                visits: [],
+                visits: action.payload.data.visits,
             };
         case GET_ACTIONS.GET_VISITS_FAIL:
             return {

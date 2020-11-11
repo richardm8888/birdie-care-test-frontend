@@ -6,7 +6,7 @@ export function getVisits(dateFrom: Date, dateTo: Date): GetVisitsAction {
         payload: {
             request: {
                 method: 'GET',
-                url: `localhost:8000/visits?date_from=${dateFrom.toString()}&date_to=${dateTo}`
+                url: `/visits?from_date=${dateFrom.toJSON()}&to_date=${dateTo.toJSON()}`
             },
         },
     };

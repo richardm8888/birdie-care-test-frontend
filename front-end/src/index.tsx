@@ -6,9 +6,11 @@ import { Provider } from 'react-redux';
 import App from '@App/components/app/App';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App/>
-  </Provider>,
-  document.getElementById('root') as HTMLElement
+    ( 
+        <Provider store={store}> 
+            <App />
+        </Provider>
+    ),
+    document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
