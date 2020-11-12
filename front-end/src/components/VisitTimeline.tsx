@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StateType } from '@App/store/reducers';
-import { Visit, Event, ObservationEvents } from '@App/store/visits/types';
+import { Visit, Event, Events } from '@App/store/visits/types';
 import { connect } from 'react-redux';
 
 import Timeline from '@material-ui/lab/Timeline';
@@ -12,6 +12,22 @@ import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+// import FastfoodIcon from '@material-ui/icons/Fastfood';
+import LocalDrinkIcon from '@material-ui/icons/LocalDrink';
+import FeedbackIcon from '@material-ui/icons/Feedback';
+// LocalHospital
+// LocalPharmacy
+// LocalHotel
+// LocalPizza
+// Bathtub
+// Wc
+// SentimentVerySatisfied
+// SentimentVeryDissatisfied
+// SentimentSatisfied
+// SentimentDissatisfied
+// AccessibilityNew
+// DirectionsRun
+// Feedback
 
 // var moment = require('moment');
 
@@ -19,22 +35,37 @@ type VisitTimelineProps = {
     current_visit: Visit
 };
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
     paper: {
       padding: '6px 16px',
-    },
-    secondaryTail: {
-      backgroundColor: theme.palette.secondary.main,
-    },
-}));
+    }
+};
 
 class VisitTimeline extends React.Component<VisitTimelineProps> {
 
     getObservationEvents = () => {
-        if (!this.props.current_visit) return [];
+        if (!this.props.current_visit) {
+            return [];
+        }
+
         return this.props.current_visit.events.filter( 
-            event => ObservationEvents instanceof event.event_type 
+            event => event.event_type.endsWith('_observation') 
         );
+    }
+
+    mapObservationEventTypeToNameAndIcon = (eventType: Events) => {
+        switch(eventType) {
+            case 'fluid_intake_observation':
+                return {
+                    icon: <LocalDrinkIcon />,
+                    name: 'Drink',
+                };
+            default:
+                return {
+                    icon: <FeedbackIcon />,
+                    name: 'Unknown',
+                };
+        }
     }
 
     render() {
@@ -44,38 +75,37 @@ class VisitTimeline extends React.Component<VisitTimelineProps> {
 
         return (
             <Timeline align="alternate">
-                <TimelineItem>
-                    <TimelineOppositeContent>
-                    <Typography variant="body2" color="textSecondary">
-                        9:30 am
-                    </Typography>
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                    <TimelineDot>
-                        { /* <FastfoodIcon /> */ }
-                    </TimelineDot>
-                    <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>
-                    <Paper elevation={3} className={classes.paper}>
-                        <Typography variant="h6" component="h1">
-                        Eat
-                        </Typography>
-                        <Typography>Because you need strength</Typography>
-                    </Paper>
-                    </TimelineContent>
-                </TimelineItem>
             {
                 this.getObservationEvents().map((event: Event) => {
-                    <span>{event.timestamp}</span>
+                    const eventDetails = this.mapObservationEventTypeToNameAndIcon(event.event_type);
+                    return (
+                        <TimelineItem key={event.id}>
+                            <TimelineOppositeContent>
+                                <Typography variant="body2" color="textSecondary">
+                                    {event.timestamp}
+                                </Typography>
+                            </TimelineOppositeContent>
+                            <TimelineSeparator>
+                                <TimelineDot>
+                                    {eventDetails.icon}
+                                </TimelineDot>
+                                <TimelineConnector />
+                            </TimelineSeparator>
+                            <TimelineContent>
+                                <Paper elevation={3} style={styles.paper}>
+                                    <Typography variant="h6" component="h1">
+                                        {eventDetails.name}
+                                    </Typography>
+                                    <Typography>Because you need strength</Typography>
+                                </Paper>
+                            </TimelineContent>
+                        </TimelineItem>
+                    );
                 })
             }
             </Timeline>
-        )
-
-        return null;
+        );
     }
-
 }
 
 const mapStateToProps = ( state: StateType ) => ({

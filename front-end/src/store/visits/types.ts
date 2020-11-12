@@ -1,4 +1,4 @@
-enum GeneralEvents {
+export enum Events {
     task_completed = 'task_completed',
     visit_completed = 'visit_completed',
     check_out = 'check_out',
@@ -10,9 +10,6 @@ enum GeneralEvents {
     task_completion_reverted = 'task_completion_reverted',
     medication_schedule_updated = 'medication_schedule_updated',
     visit_cancelled = 'visit_cancelled',
-}
-
-export enum ObservationEvents {
     fluid_intake_observation = 'fluid_intake_observation',
     physical_health_observation = 'physical_health_observation',
     mood_observation = 'mood_observation',
@@ -25,7 +22,7 @@ export type Event = {
     id: string;
     visit_id: string;
     timestamp: Date;
-    event_type: GeneralEvents & ObservationEvents;
+    event_type: Events;
     caregiver_id: string;
     care_recipient_id: string;
     fluid?: string;
