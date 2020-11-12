@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DatePicker from '@App/components/DatePicker';
 import VisitList from '@App/components/VisitList';
+import VisitTimeline from '@App/components/VisitTimeline';
 
 const drawerWidth = 320;
 
@@ -61,6 +62,7 @@ export default function Layout() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
+        <VisitTimeline />
       </main>
     </div>
   );

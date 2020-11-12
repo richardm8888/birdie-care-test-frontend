@@ -1,29 +1,31 @@
-enum EventType {
-    fluid_intake_observation = 'fluid_intake_observation',
+enum GeneralEvents {
     task_completed = 'task_completed',
-    physical_health_observation = 'physical_health_observation',
     visit_completed = 'visit_completed',
     check_out = 'check_out',
-    mood_observation = 'mood_observation',
     regular_medication_taken = 'regular_medication_taken',
     alert_raised = 'alert_raised',
     no_medication_observation_received = 'no_medication_observation_received',
-    incontinence_pad_observation = 'incontinence_pad_observation',
     check_in = 'check_in',
-    general_observation = 'general_observation',
     regular_medication_not_taken = 'regular_medication_not_taken',
-    food_intake_observation = 'food_intake_observation',
     task_completion_reverted = 'task_completion_reverted',
-    mental_health_observation = 'mental_health_observation',
     medication_schedule_updated = 'medication_schedule_updated',
     visit_cancelled = 'visit_cancelled',
+}
+
+export enum ObservationEvents {
+    fluid_intake_observation = 'fluid_intake_observation',
+    physical_health_observation = 'physical_health_observation',
+    mood_observation = 'mood_observation',
+    incontinence_pad_observation = 'incontinence_pad_observation',
+    food_intake_observation = 'food_intake_observation',
+    mental_health_observation = 'mental_health_observation',
 }
 
 export type Event = {
     id: string;
     visit_id: string;
     timestamp: Date;
-    event_type: EventType;
+    event_type: GeneralEvents & ObservationEvents;
     caregiver_id: string;
     care_recipient_id: string;
     fluid?: string;
@@ -43,17 +45,25 @@ export type Visit = {
     events: Event[];
 };
 
-export type Visits = {
+type Visits = {
      visits: Visit[];
-}
+};
 
-export type VisitCalendar = {
-    visit_calendar: VisitDate[];
-}
+type VisitsData = {
+    data: Visits;
+};
 
-export type VisitDate = {
+type VisitDate = {
     date: Date;
     n_visits: number;
+};
+
+type VisitCalendar = {
+    visit_calendar: VisitDate[];
+};
+
+type VisitCalendarData = {
+    data: VisitCalendar;
 };
 
 export type VisitState = {
@@ -63,15 +73,18 @@ export type VisitState = {
     current_date: moment.Moment|null;
 };
 
+type RequestProperties = {
+    method: string;
+    url: string;
+};
+
 type Request = {
-    request: {
-        method: string;
-        url: string;
-    };
+    request: RequestProperties;
 };
 
 export enum GET_ACTIONS {
     SET_DATE = 'SET_DATE',
+    SET_VISIT = 'SET_VISIT',
     GET_VISITS = 'GET_VISITS',
     GET_VISITS_SUCCESS = 'GET_VISITS_SUCCESS',
     GET_VISITS_FAIL = 'GET_VISITS_FAIL',
@@ -80,23 +93,34 @@ export enum GET_ACTIONS {
     GET_VISIT_CALENDAR_FAIL = 'GET_VISIT_CALENDAR_FAIL'
 }
 
-export type GetVisitsAction = {
+export type RequestAction = {
     type: GET_ACTIONS;
     payload: Request;
 };
 
-export type GetVisitsSuccessAction = {
+export type setDateAction = {
     type: GET_ACTIONS;
-    payload: {
-        data: Visits;
-    };
+    date: moment.Moment|null;
 };
 
-export type GetVisitCalendarSuccessAction = {
+export type setVisitAction = {
     type: GET_ACTIONS;
-    payload: {
-        data: VisitCalendar;
-    };
+    visit: Visit|null;
 };
 
-export type ActionTypes = GetVisitsSuccessAction | GetVisitCalendarSuccessAction | GetVisitsAction;
+type GetVisitsSuccessAction = {
+    type: GET_ACTIONS;
+    payload: VisitsData;
+};
+
+type GetVisitCalendarSuccessAction = {
+    type: GET_ACTIONS;
+    payload: VisitCalendarData;
+};
+
+export type ActionTypes = (
+    GetVisitsSuccessAction & 
+    GetVisitCalendarSuccessAction & 
+    setDateAction & 
+    setVisitAction
+);

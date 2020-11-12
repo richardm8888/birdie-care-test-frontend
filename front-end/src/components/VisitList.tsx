@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StateType } from '@App/store/reducers';
 import { Visit, Event } from '@App/store/visits/types';
+import { setVisit } from '@App/store/visits/actions';
 import { connect } from 'react-redux';
 
 import List from '@material-ui/core/List';
@@ -13,7 +14,8 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 var moment = require('moment');
 
 type VisitListProps = {
-    visits: Visit[]
+    visits: Visit[],
+    setVisit: typeof setVisit,
 };
 
 class VisitList extends React.Component<VisitListProps> {
@@ -34,7 +36,7 @@ class VisitList extends React.Component<VisitListProps> {
                             key={visit.visit_id} 
                             button={true} 
                             onClick={() => {
-                                alert('hello');
+                                this.props.setVisit(visit);
                             }}
                         >
                             <ListItemText
@@ -57,6 +59,6 @@ const mapStateToProps = ( state: StateType ) => ({
     visits: state.visits.visits
 });
 
-const mapDispatchToProps = { };
+const mapDispatchToProps = { setVisit };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisitList);
