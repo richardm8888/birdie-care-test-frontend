@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getVisits, getVisitCalendar, setDate } from '@App/store/visits/actions';
 import { StateType } from '@App/store/reducers';
 import { connect } from 'react-redux';
-var moment = require('moment');
+const moment = require('moment');
 
 import 'react-dates/initialize';
 

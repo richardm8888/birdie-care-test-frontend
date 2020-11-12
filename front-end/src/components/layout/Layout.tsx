@@ -1,13 +1,17 @@
 import * as React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import Logo from '@App/components/Logo';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import DatePicker from '@App/components/DatePicker';
 import VisitList from '@App/components/VisitList';
 import VisitTimeline from '@App/components/VisitTimeline';
+import TodayIcon from '@material-ui/icons/Today';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+// import { FormHelperText } from '@material-ui/core';
 
 const drawerWidth = 320;
 
@@ -15,55 +19,113 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  // necessary for content to be below app bar
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    color: '#cccccc',
+    backgroundColor: '#ffffff',
+    padding: theme.spacing(3),
+  }, // theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-  },
-  drawerContainer: {
-    overflow: 'auto',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    paddingTop: '60px',
   },
 }));
 
 export default function Layout() {
-  const classes = useStyles();
+    const classes = useStyles();
+    const theme = useTheme();
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap={true}>
-            Clipped drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const drawer = (
+        <>
             <DatePicker />
             <VisitList />
+        </>
+    );
+
+    const LogoUrl = require('../../assets/images/logo-birdie.svg');
+
+    return (
+        <div className={classes.root}>
+            <CssBaseline />
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar className={classes.toolbar}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open calendar"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <TodayIcon />
+                    </IconButton>
+                    <Logo src={LogoUrl} />
+                </Toolbar>
+            </AppBar>
+            <nav className={classes.drawer} aria-label="mailbox folders">
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp={true} implementation="css">
+                    <Drawer
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown={true} implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open={true}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+            </nav>
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <VisitTimeline />
+            </main>
         </div>
-      </Drawer>
-      <main className={classes.content}>
-        <Toolbar />
-        <VisitTimeline />
-      </main>
-    </div>
-  );
+    );
 }

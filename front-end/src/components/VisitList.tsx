@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
-var moment = require('moment');
+const moment = require('moment');
 
 type VisitListProps = {
     visits: Visit[],
