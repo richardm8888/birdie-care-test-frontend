@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import DatePicker from '@App/components/DatePicker';
+import DatePicker from '@App/components/datepicker/DatePicker';
 import VisitList from '@App/components/VisitList';
 import VisitTimeline from '@App/components/VisitTimeline';
 import TodayIcon from '@material-ui/icons/Today';

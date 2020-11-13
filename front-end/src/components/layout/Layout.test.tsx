@@ -28,12 +28,12 @@ describe('Layout', () => {
 
     it('Has header', () => {
         const header = container.querySelector('header');
-        expect(header).not.toBe(undefined);
+        expect(header).not.toBe(null);
     });
 
     it('Has main section', () => {
         const main = container.querySelector('main');
-        expect(main).not.toBe(undefined);
+        expect(main).not.toBe(null);
         if (main) {
             expect(main.textContent).toContain(
                 'Please select a date from the calendar on the left to view details of caregiver visits'
@@ -43,7 +43,7 @@ describe('Layout', () => {
 
     it('Has calendar sidebar', () => {
         const nav = container.querySelector('nav');
-        expect(nav).not.toBe(undefined);
+        expect(nav).not.toBe(null);
         if (nav) {
             expect(nav.textContent).toContain('Select a date from the calendar above'); 
         }

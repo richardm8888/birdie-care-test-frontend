@@ -15,5 +15,6 @@ The user journey is as below:
 
 The current implementation is very limited, it would have been nice to expand it to include:
 
+- Tests, tests, tests - I've added a few, but needs way more coverage
 - A simple dashboard on the home page (landing screen) showing latest observations (mood, etc.)
 - Some graphs showing the change in observations over time (fluid intake, etc.)
