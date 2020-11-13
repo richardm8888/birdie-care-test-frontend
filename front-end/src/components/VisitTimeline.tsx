@@ -7,26 +7,13 @@ import Timeline from '@material-ui/lab/Timeline';
 import Typography from '@material-ui/core/Typography';
 import FluidObservationTimeline from '@App/components/events/FluidObservationTimeline';
 import FoodObservationTimeline from '@App/components/events/FoodObservationTimeline';
+import MoodObservationTimeline from '@App/components/events/MoodObservationTimeline';
+import PhysicalHealthObservationTimeline from '@App/components/events/PhysicalHealthObservationTimeline';
+import MentalHealthObservationTimeline from '@App/components/events/MentalHealthObservationTimeline';
+import IncontinencePadObservationTimeline from '@App/components/events/IncontinencePadObservationTimeline';
 import StartTimeline from './events/StartTimeline';
 import EndTimeline from './events/EndTimeline';
-
 const moment = require('moment');
-
-// import FastfoodIcon from '@material-ui/icons/Fastfood';
-// import FeedbackIcon from '@material-ui/icons/Feedback';
-// LocalHospital
-// LocalPharmacy
-// LocalHotel
-// LocalPizza
-// Bathtub
-// Wc
-// SentimentVerySatisfied
-// SentimentVeryDissatisfied
-// SentimentSatisfied
-// SentimentDissatisfied
-// AccessibilityNew
-// DirectionsRun
-// Feedback
 
 type VisitTimelineProps = {
     current_visit: Visit
@@ -63,6 +50,14 @@ class VisitTimeline extends React.Component<VisitTimelineProps> {
                 return FluidObservationTimeline(event);
             case 'food_intake_observation':
                 return FoodObservationTimeline(event);
+            case 'mental_health_observation':
+                return MentalHealthObservationTimeline(event);
+            case 'physical_health_observation':
+                return PhysicalHealthObservationTimeline(event);
+            case 'mood_observation':
+                return MoodObservationTimeline(event);
+            case 'incontinence_pad_observation':
+                return IncontinencePadObservationTimeline(event);
             case 'check_in':
                 return StartTimeline(event);
             case 'check_out':

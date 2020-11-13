@@ -11,7 +11,9 @@ import VisitList from '@App/components/VisitList';
 import VisitTimeline from '@App/components/VisitTimeline';
 import TodayIcon from '@material-ui/icons/Today';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-// import { FormHelperText } from '@material-ui/core';
+import { StateType } from '@App/store/reducers';
+import { setDate, setVisit } from '@App/store/visits/actions';
+import { connect } from 'react-redux';
 
 const drawerWidth = 320;
 
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#cccccc',
     backgroundColor: '#ffffff',
     padding: theme.spacing(3),
-  }, // theme.mixins.toolbar,
+  },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -56,7 +58,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout() {
+type LayoutProps = {
+    setDate: typeof setDate,
+    setVisit: typeof setVisit,
+};
+
+function Layout(props: LayoutProps) {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -89,7 +96,13 @@ export default function Layout() {
                     >
                         <TodayIcon />
                     </IconButton>
-                    <Logo src={LogoUrl} />
+                    <Logo 
+                        src={LogoUrl} 
+                        onClick={() => {
+                            props.setDate(null);
+                            props.setVisit(null);
+                        }}
+                    />
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
@@ -129,3 +142,9 @@ export default function Layout() {
         </div>
     );
 }
+
+const mapStateToProps = ( state: StateType ) => ({});
+
+const mapDispatchToProps = { setVisit, setDate };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

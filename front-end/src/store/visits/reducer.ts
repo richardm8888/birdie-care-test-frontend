@@ -30,6 +30,7 @@ export default function visitsReducer(state: VisitState = visitsState, action: A
             return {
                 ...state,
                 current_date: action.date,
+                visits: [],
             };
         case GET_ACTIONS.SET_VISIT:
             return {

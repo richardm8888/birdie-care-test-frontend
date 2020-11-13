@@ -1,13 +1,13 @@
 import { GET_ACTIONS, Visit, RequestAction, setDateAction, setVisitAction } from './types';
 
-export function setDate(date: moment.Moment): setDateAction {
+export function setDate(date: moment.Moment|null): setDateAction {
     return {
         type: GET_ACTIONS.SET_DATE,
         date
     };
 }
 
-export function setVisit(visit: Visit): setVisitAction {
+export function setVisit(visit: Visit|null): setVisitAction {
     return {
         type: GET_ACTIONS.SET_VISIT,
         visit

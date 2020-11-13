@@ -6,16 +6,23 @@ import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
-import TimelineDot from '@material-ui/lab/TimelineDot';
+import TimelineDot, { TimelineDotProps } from '@material-ui/lab/TimelineDot';
 import Paper from '@material-ui/core/Paper';
 
 const moment = require('moment');
 
-export default function Timeline(id: string, date: Date, name: string, secondary: string, icon: Function) {
+export default function Timeline(
+    id: string, 
+    date: Date, 
+    name: string, 
+    secondary: string, 
+    icon: JSX.Element,
+    dotColor: TimelineDotProps['color'] = 'primary', 
+) {
     const styles = {
         paper: {
           padding: '6px 16px',
-        }
+        },
     };
 
     return (
@@ -26,9 +33,8 @@ export default function Timeline(id: string, date: Date, name: string, secondary
                 </Typography>
             </TimelineOppositeContent>
             <TimelineSeparator>
-                <TimelineDot>
-                    { // icon
-                    }
+                <TimelineDot color={dotColor}>
+                    {icon}
                 </TimelineDot>
                 <TimelineConnector />
             </TimelineSeparator>
