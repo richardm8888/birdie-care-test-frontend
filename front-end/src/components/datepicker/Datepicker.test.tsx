@@ -51,8 +51,8 @@ describe('Datepicker', () => {
 
         if (month && next) {
             act(() => {
-                next.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-            });
+                next.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            }); 
             expect(month.textContent).toContain(
                 'May 2019'
             ); 
@@ -68,7 +68,7 @@ describe('Datepicker', () => {
 
         if (month && previous) {
             act(() => {
-                previous.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+                previous.dispatchEvent(new MouseEvent('click', { bubbles: true }));
             });
             expect(month.textContent).toContain(
                 'March 2019'
@@ -94,7 +94,7 @@ describe('Datepicker', () => {
             }; 
             jest.spyOn(actions, 'setDate');
             act(() => {
-                day.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+                day.dispatchEvent(new MouseEvent('click', { bubbles: true }));
             });
             // Need to fix the spy - this definitely gets called otherwise the text wouldn't change!
             // expect(actions.setDate).toHaveBeenCalledTimes(1);
