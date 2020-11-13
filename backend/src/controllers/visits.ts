@@ -1,6 +1,6 @@
 import * as express from "express";
-
-var sql = require('../models/db.js');
+import Visits, { VisitsResponse } from '../models/visits';
+import VisitCalendar, { VisitCalendarResponse } from '../models/visitCalendar';
 
 export const visitsController = express.Router();
 
@@ -39,50 +39,9 @@ visitsController.get('/visits', (req, res) => {
         return;
     }
 
-    // TODO - Move all of this to a model
-    sql.query(
-        `
-        SELECT 
-            visit_id, 
-            MIN(events.timestamp) AS start_timestamp, 
-            MAX(events.timestamp) AS end_timestamp, 
-            COUNT(id) AS "n_events",
-            JSON_ARRAYAGG(payload) AS "events"
-        FROM events
-        WHERE visit_id IS NOT NULL
-        AND DATE(events.timestamp) BETWEEN ? AND ?
-        AND care_recipient_id = ?
-        GROUP BY
-            visit_id
-        `,
-        [from_date, to_date, RECIPIENT_ID], 
-        function (query_error:any, query_results:any) {             
-            if(query_error) {
-                res.status(400).json({
-                    error: {
-                        "code": query_error.code,
-                        "message": query_error.sqlMessage
-                    }
-                });
-                return;
-            }
-            else {
-                // TODO - Create a transformer to convert results to api response format
-                let visits: any[] = [];
-                query_results.forEach((visit: any) => {
-                    visits.push({
-                        "visit_id": visit.visit_id,
-                        "start_timestamp": visit.start_timestamp,
-                        "end_timestamp": visit.end_timestamp,
-                        "n_events": visit.n_events,
-                        "events": JSON.parse(visit.events)
-                    });
-                })
-                res.status(200).json({"visits": visits});   
-                return;         
-            }
-        }
-    );    
+    Visits.getVisits(from_date, to_date, RECIPIENT_ID).then((data: VisitsResponse) => {
+        res.status(data.status).json(data.message);
+    });
 });
 
 
@@ -94,32 +53,7 @@ visitsController.get('/visit-calendar', (req, res) => {
         return;
     }
 
-    // TODO - Move all of this to a model
-    sql.query(
-        `
-            SELECT DATE(timestamp) AS "date", COUNT(distinct(visit_id)) AS "n_visits"
-            FROM events
-            WHERE visit_id IS NOT NULL
-            AND DATE(events.timestamp) BETWEEN ? and ?
-            AND care_recipient_id = ?
-            GROUP BY
-                DATE(timestamp)
-        `,
-        [from_date, to_date, RECIPIENT_ID], 
-        function (query_error:any, query_results:any) {             
-            if(query_error) {
-                res.status(400).json({
-                    error: {
-                        "code": query_error.code,
-                        "message": query_error.sqlMessage
-                    }
-                });
-                return;
-            }
-            else {
-                res.status(200).json({"visit_calendar": query_results});   
-                return;         
-            }
-        }
-    );   
+    VisitCalendar.getVisitCalendar(from_date, to_date, RECIPIENT_ID).then((data: VisitCalendarResponse) => {
+        res.status(data.status).json(data.message);
+    });
 });
