@@ -40,7 +40,7 @@ export default function Timeline(
             </TimelineSeparator>
             <TimelineContent>
                 <Paper elevation={3} style={styles.paper}>
-                    <Typography variant="h6" component="h1">
+                    <Typography variant="body1">
                         {name}
                     </Typography>
                     <Typography>{secondary}</Typography>

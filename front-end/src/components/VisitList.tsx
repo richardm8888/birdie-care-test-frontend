@@ -8,14 +8,15 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-// import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
 const moment = require('moment');
 
 type VisitListProps = {
     visits: Visit[],
+    current_date: moment.Moment|null,
     setVisit: typeof setVisit,
+    onSelect: Function
 };
 
 class VisitList extends React.Component<VisitListProps> {
@@ -25,10 +26,20 @@ class VisitList extends React.Component<VisitListProps> {
     }
 
     render() {
+        const styles = {
+            notice: {
+              align: 'center',
+              padding: '10px'
+            },
+        };
+
         return (
             <List>
-                {this.props.visits.length === 0 && (
-                    <span>No visits on this day.</span>
+                {!this.props.current_date && (
+                    <span style={styles.notice}>Select a date from the calendar above</span>
+                )}
+                {this.props.current_date && this.props.visits.length === 0 && (
+                    <span style={styles.notice}>No visits on this day.</span>
                 )}
                 {this.props.visits.length > 0 && this.props.visits.map((visit: Visit) => {
                     return (
@@ -37,6 +48,7 @@ class VisitList extends React.Component<VisitListProps> {
                             button={true} 
                             onClick={() => {
                                 this.props.setVisit(visit);
+                                this.props.onSelect();
                             }}
                         >
                             <ListItemText
@@ -56,7 +68,8 @@ class VisitList extends React.Component<VisitListProps> {
 }
 
 const mapStateToProps = ( state: StateType ) => ({
-    visits: state.visits.visits
+    visits: state.visits.visits,
+    current_date: state.visits.current_date,
 });
 
 const mapDispatchToProps = { setVisit };

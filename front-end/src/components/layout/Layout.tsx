@@ -2,6 +2,7 @@ import * as React from 'react';
 import Logo from '@App/components/Logo';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { StateType } from '@App/store/reducers';
 import { setDate, setVisit } from '@App/store/visits/actions';
+import { Visit } from '@App/store/visits/types';
 import { connect } from 'react-redux';
 
 const drawerWidth = 320;
@@ -61,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 type LayoutProps = {
     setDate: typeof setDate,
     setVisit: typeof setVisit,
+    current_visit: Visit
 };
 
 function Layout(props: LayoutProps) {
@@ -76,7 +79,7 @@ function Layout(props: LayoutProps) {
     const drawer = (
         <>
             <DatePicker />
-            <VisitList />
+            <VisitList onSelect={handleDrawerToggle} />
         </>
     );
 
@@ -88,7 +91,7 @@ function Layout(props: LayoutProps) {
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
-                        color="inherit"
+                        color="primary"
                         aria-label="open calendar"
                         edge="start"
                         onClick={handleDrawerToggle}
@@ -137,13 +140,30 @@ function Layout(props: LayoutProps) {
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <VisitTimeline />
+                {!props.current_visit && (
+                    <>
+                        <Hidden xsDown={true} implementation="css">
+                            <Typography variant="h6">
+                                Please select a date from the calendar on the left to view details of caregiver visits
+                            </Typography>
+                        </Hidden>
+                        <Hidden smUp={true} implementation="css">
+                            <Typography variant="h6">
+                                Please select a date from the calendar to view details of caregiver visits.
+                            </Typography>
+                            Open the calendar by clicking the calendar icon at the top of the screen.
+                        </Hidden>
+                    </>
+                )}
+                {props.current_visit && <VisitTimeline />}
             </main>
         </div>
     );
 }
 
-const mapStateToProps = ( state: StateType ) => ({});
+const mapStateToProps = ( state: StateType ) => ({
+    current_visit: state.visits.current_visit,
+});
 
 const mapDispatchToProps = { setVisit, setDate };
 
