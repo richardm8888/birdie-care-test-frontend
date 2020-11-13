@@ -18,3 +18,7 @@ The current implementation is very limited, it would have been nice to expand it
 
 - Dynamic selection of care recipient based on a value in the API request - at present it is hard-coded for simplicity
 - DB models using some form of ORM
+
+# Environment variables needed 
+
+See `.env.example`

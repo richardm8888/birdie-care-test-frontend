@@ -18,3 +18,7 @@ The current implementation is very limited, it would have been nice to expand it
 - Tests, tests, tests - I've added a few, but needs way more coverage
 - A simple dashboard on the home page (landing screen) showing latest observations (mood, etc.)
 - Some graphs showing the change in observations over time (fluid intake, etc.)
+
+# Environment variables needed 
+
+- BASE_URL - This is injected as part of the `npm start` command for development, but needs to be added for other environments

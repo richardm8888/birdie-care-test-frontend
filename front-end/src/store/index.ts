@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: process.env.BASE_URL,
     responseType: 'json'
 });
 
