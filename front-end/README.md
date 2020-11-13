@@ -11,6 +11,10 @@ The user journey is as below:
 - Select a visit from the list to reveal a timeline of the events during that visit
 - Scroll down the timeline to view all events
 
+# UI / UX
+
+The application uses Material UI, it could definitely do with a designers eye though :-)
+
 # Limitations / possible extensions
 
 The current implementation is very limited, it would have been nice to expand it to include:
