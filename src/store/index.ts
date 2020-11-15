@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 const axiosClient = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.REACT_APP_BASE_URL,
     responseType: 'json'
 });
 
