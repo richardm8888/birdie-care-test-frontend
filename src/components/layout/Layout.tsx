@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Logo from '@App/components/Logo';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
@@ -69,11 +70,14 @@ type LayoutProps = {
 function Layout(props: LayoutProps) {
     const classes = useStyles();
     const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
+        if (!isDesktop) {
+            setMobileOpen(!mobileOpen);
+        }
     };
 
     const drawer = (
