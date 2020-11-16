@@ -50,7 +50,7 @@ type VisitsData = {
     data: Visits;
 };
 
-type VisitDate = {
+export type VisitDate = {
     date: Date;
     n_visits: number;
 };
